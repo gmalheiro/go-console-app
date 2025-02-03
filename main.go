@@ -1,8 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"go-console-app/service"
+)
 
 func main() {
-	fmt.Println("Hello World")
-	fmt.Println("Hello World Go")
+	response := service.GetTaskById(3)
+	println(response)
 }

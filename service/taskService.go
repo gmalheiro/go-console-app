@@ -17,7 +17,7 @@ func GetTaskById(id int) string {
 		return "Task not found"
 	}
 
-	return fmt.Sprintf("ID: %d, Título: %s, Status: %t", task.ID, task.Title, task.Status)
+	return fmt.Sprintf("{ID: %d, Title: %s, Status: %t}", task.ID, task.Title, task.Status)
 }
 
 func deleteTaskById() string {
