@@ -26,6 +26,6 @@ func updateTaskById() {
 
 }
 
-func getAllTasks() {
-
+func GetAllTasks() []model.Task {
+	return storage.Tasks
 }
