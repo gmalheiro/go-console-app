@@ -32,7 +32,7 @@ func main() {
 		case 2:
 			println("All available tasks:")
 			response := service.GetAllTasks()
-			println(response)
+			fmt.Println(response)
 		case 3:
 			println("creating task...")
 		case 4:
