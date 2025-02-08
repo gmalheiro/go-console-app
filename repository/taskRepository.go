@@ -5,7 +5,7 @@ import (
 	"go-console-app/storage"
 )
 
-func createTask(task model.Task) {
+func CreateTask(task model.Task) {
 	storage.Tasks = append(storage.Tasks, task)
 }
 
@@ -28,4 +28,8 @@ func updateTaskById() {
 
 func GetAllTasks() []model.Task {
 	return storage.Tasks
+}
+
+func GetSliceSize() int {
+	return len(storage.Tasks)
 }

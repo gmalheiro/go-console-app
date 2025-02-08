@@ -9,8 +9,10 @@ import (
 	"go-console-app/repository"
 )
 
-func createTask(id int, title string, status bool) string {
-	task := factory.CreateTask(title, id, status)
+func CreateTask(title string) string {
+	id := repository.GetSliceSize() + 1
+	task := factory.CreateTask(title, id, false)
+	repository.CreateTask(task)
 	return fmt.Sprintf("{ID: %d, Title: %s, Status: %t}", task.ID, task.Title, task.Status)
 }
 

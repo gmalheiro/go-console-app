@@ -1,18 +1,19 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strings"
 
 	"go-console-app/service"
 )
 
 func main() {
-	//TODO: Implement CreateTask  []
 	//TODO: Implement UpdateTask  []
-	//TODO: Implement GetAllTasks []
 	//TODO: Implement DeleteTask  []
 	terminator := false
+	reader := bufio.NewReader(os.Stdin)
 	var choice int
 	for terminator != true {
 		println("Select an option")
@@ -34,7 +35,11 @@ func main() {
 			response := service.GetAllTasks()
 			fmt.Println(response)
 		case 3:
-			println("creating task...")
+			fmt.Print("Type task title: ")
+			title, _ := reader.ReadString('\n')
+			title = strings.TrimSpace(title)
+			response := service.CreateTask(title)
+			fmt.Println(response)
 		case 4:
 			println("updating task...")
 		case 5:
