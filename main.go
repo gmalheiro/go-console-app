@@ -2,18 +2,18 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"go-console-app/service"
 )
 
 func main() {
-	//TODO: Implement GetTaskById [X]
 	//TODO: Implement CreateTask  []
 	//TODO: Implement UpdateTask  []
 	//TODO: Implement GetAllTasks []
 	//TODO: Implement DeleteTask  []
 	terminator := false
-
+	var choice int
 	for terminator != true {
 		println("Select an option")
 		println("Select 1 to get task by id")
@@ -21,7 +21,8 @@ func main() {
 		println("Select 3 to create task")
 		println("Select 4 to update a task")
 		println("Select 5 to delete a task")
-		switch choice := 0; choice {
+		fmt.Scanln(&choice)
+		switch choice {
 		case 1:
 			var id string
 			fmt.Print("Type task Id:")
@@ -29,7 +30,9 @@ func main() {
 			response := service.GetTaskById(id)
 			println(response)
 		case 2:
-			println("got all tasks")
+			println("All available tasks:")
+			response := service.GetAllTasks()
+			println(response)
 		case 3:
 			println("creating task...")
 		case 4:
@@ -43,7 +46,7 @@ func main() {
 		fmt.Println("Wanna Continue? Y/N")
 		fmt.Scanln(&answer)
 
-		if answer == "N" {
+		if strings.ToUpper(answer) == "N" {
 			terminator = true
 		}
 

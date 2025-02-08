@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"go-console-app/factory"
+	"go-console-app/model"
 	"go-console-app/repository"
 )
 
@@ -38,6 +39,17 @@ func updateTaskById() string {
 	return ""
 }
 
-func getAllTasks() string {
-	return ""
+func GetAllTasks() []string {
+	var stringTasks []string
+	var tasks []model.Task = repository.GetAllTasks()
+	for i := range tasks {
+		task := fmt.Sprintf(
+			"{ID: %d, Title: %s, Status: %t}",
+			tasks[i].ID,
+			tasks[i].Title,
+			tasks[i].Status,
+		)
+		stringTasks = append(stringTasks, task)
+	}
+	return stringTasks
 }
