@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 
@@ -9,47 +10,47 @@ import (
 	"go-console-app/repository"
 )
 
-func createTask(id int, title string, status bool) string {
-	task := factory.CreateTask(title, id, status)
+func CreateTask(title string) string {
+	id := repository.GetSliceSize() + 1
+	task := factory.CreateTask(title, id, false)
+	repository.CreateTask(task)
 	return fmt.Sprintf("{ID: %d, Title: %s, Status: %t}", task.ID, task.Title, task.Status)
 }
 
-func GetTaskById(id string) string {
+func GetTaskById(id string) *model.Task {
 	taskId, err := strconv.Atoi(id)
 
 	if err != nil {
 		fmt.Println("Error while converting: ", err)
-		return ""
+		return nil
 	}
 
 	task := repository.GetTaskById(taskId)
 
 	if task == nil {
-		return "Task not found"
+		fmt.Println("Task not found")
+		return nil
 	}
 
-	return fmt.Sprintf("{ID: %d, Title: %s, Status: %t}", task.ID, task.Title, task.Status)
+	return task
 }
 
-func deleteTaskById() string {
-	return ""
+func deleteTaskById() {
+
 }
 
-func updateTaskById() string {
-	return ""
+func UpdateTask(task model.Task) model.Task {
+	return *repository.UpdateTask(task)
 }
 
-func GetAllTasks() []string {
-	var stringTasks []string
-	var tasks []model.Task = repository.GetAllTasks()
-	for i := range tasks {
-		task := fmt.Sprintf(
-			"{ID: %d, Title: %s, Status: %t}",
-			tasks[i].ID,
-			tasks[i].Title,
-			tasks[i].Status,
-		)
-		stringTasks = append(stringTasks, task)
+func GetAllTasks() string {
+	tasks := repository.GetAllTasks()
+
+	jsonTasks, err := json.MarshalIndent(tasks, "", "  ")
+	if err != nil {
+		fmt.Println("Error while converting to JSON: ", err)
+		return `{"error": "Internal server error"}`
 	}
-	return stringTasks
+
+	return string(jsonTasks)
 }
