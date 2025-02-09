@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	//TODO: Implement DeleteTask  []
 	terminator := false
 	reader := bufio.NewReader(os.Stdin)
 	var choice int
@@ -84,7 +83,10 @@ func main() {
 				}
 			}
 		case 5:
-			println("deleting task...")
+			fmt.Print("Type task id: ")
+			var id string
+			fmt.Scanln(&id)
+			fmt.Println(utils.TaskToJsonString(*service.DeleteTaskById(id)))
 		default:
 			println("option not available...")
 		}

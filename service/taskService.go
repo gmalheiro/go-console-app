@@ -35,8 +35,9 @@ func GetTaskById(id string) *model.Task {
 	return task
 }
 
-func deleteTaskById() {
-
+func DeleteTaskById(id string) *model.Task {
+	taskId := GetTaskById(id)
+	return repository.DeleteTaskById(taskId.ID)
 }
 
 func UpdateTask(task model.Task) model.Task {
