@@ -7,10 +7,10 @@ import (
 	"strings"
 
 	"go-console-app/service"
+	"go-console-app/utils"
 )
 
 func main() {
-	//TODO: Implement UpdateTask  []
 	//TODO: Implement DeleteTask  []
 	terminator := false
 	reader := bufio.NewReader(os.Stdin)
@@ -29,7 +29,7 @@ func main() {
 			fmt.Print("Type task Id:")
 			fmt.Scanln(&id)
 			response := service.GetTaskById(id)
-			println(response)
+			fmt.Println(utils.TaskToJsonString(*response))
 		case 2:
 			println("All available tasks:")
 			response := service.GetAllTasks()
@@ -41,7 +41,48 @@ func main() {
 			response := service.CreateTask(title)
 			fmt.Println(response)
 		case 4:
-			println("updating task...")
+			var id string
+			fmt.Print("Type task Id:")
+			fmt.Scanln(&id)
+			task := service.GetTaskById(id)
+			var answer string
+			fmt.Print("Wanna edit both status and title? Y/N")
+			fmt.Scanln(&answer)
+			if strings.ToUpper(answer) != "Y" {
+				fmt.Print("Type 1 to update task title and 2 to update task status: ")
+				var editChoice int
+				fmt.Scanln(&editChoice)
+				if editChoice == 1 {
+					fmt.Println("Type task title: ")
+					title, _ := reader.ReadString('\n')
+					title = strings.TrimSpace(title)
+					task.Title = title
+					fmt.Println(utils.TaskToJsonString(service.UpdateTask(*task)))
+				} else {
+					var isTaskFinished string
+					fmt.Print("Task was finished Y/N? ")
+					fmt.Scanln(&isTaskFinished)
+					if strings.ToUpper(isTaskFinished) == "Y" {
+						task.Status = true
+					} else {
+						task.Status = false
+					}
+					fmt.Println(utils.TaskToJsonString(service.UpdateTask(*task)))
+				}
+			} else {
+				fmt.Println("Type task title: ")
+				title, _ := reader.ReadString('\n')
+				title = strings.TrimSpace(title)
+				task.Title = title
+				var isTaskFinished string
+				fmt.Print("Task was finished Y/N? ")
+				fmt.Scanln(&isTaskFinished)
+				if strings.ToUpper(isTaskFinished) == "Y" {
+					task.Status = true
+				} else {
+					task.Status = false
+				}
+			}
 		case 5:
 			println("deleting task...")
 		default:
