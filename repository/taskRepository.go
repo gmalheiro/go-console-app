@@ -18,8 +18,17 @@ func GetTaskById(id int) *model.Task {
 	return nil
 }
 
-func deleteTaskById() {
-
+func DeleteTaskById(id int) *model.Task {
+	task := GetTaskById(id)
+	if task != nil {
+		for i := range storage.Tasks {
+			if storage.Tasks[i].ID == id {
+				storage.Tasks = append(storage.Tasks[:i], storage.Tasks[i+1:]...)
+				return task
+			}
+		}
+	}
+	return nil
 }
 
 func UpdateTask(task model.Task) *model.Task {
