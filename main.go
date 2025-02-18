@@ -1,103 +1,49 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
+	"go-console-app/controller"
 	"strings"
-
-	"go-console-app/service"
-	"go-console-app/utils"
 )
 
 func main() {
-	terminator := false
-	reader := bufio.NewReader(os.Stdin)
-	var choice int
-	for terminator != true {
-		println("Select an option")
-		println("Select 1 to get task by id")
-		println("Select 2 to get all tasks")
-		println("Select 3 to create task")
-		println("Select 4 to update a task")
-		println("Select 5 to delete a task")
+	taskController := controller.NewTaskController()
+
+	for {
+		fmt.Println("\nSelect an option:")
+		fmt.Println("1 - Get task by id")
+		fmt.Println("2 - Get all tasks")
+		fmt.Println("3 - Create task")
+		fmt.Println("4 - Update a task")
+		fmt.Println("5 - Delete a task")
+		fmt.Println("6 - Exit")
+
+		var choice int
 		fmt.Scanln(&choice)
+
 		switch choice {
 		case 1:
-			var id string
-			fmt.Print("Type task Id:")
-			fmt.Scanln(&id)
-			response := service.GetTaskById(id)
-			fmt.Println(utils.TaskToJsonString(*response))
+			taskController.GetTaskById()
 		case 2:
-			println("All available tasks:")
-			response := service.GetAllTasks()
-			fmt.Println(response)
+			taskController.GetAllTasks()
 		case 3:
-			fmt.Print("Type task title: ")
-			title, _ := reader.ReadString('\n')
-			title = strings.TrimSpace(title)
-			response := service.CreateTask(title)
-			fmt.Println(response)
+			taskController.CreateTask()
 		case 4:
-			var id string
-			fmt.Print("Type task Id:")
-			fmt.Scanln(&id)
-			task := service.GetTaskById(id)
-			var answer string
-			fmt.Print("Wanna edit both status and title? Y/N")
-			fmt.Scanln(&answer)
-			if strings.ToUpper(answer) != "Y" {
-				fmt.Print("Type 1 to update task title and 2 to update task status: ")
-				var editChoice int
-				fmt.Scanln(&editChoice)
-				if editChoice == 1 {
-					fmt.Println("Type task title: ")
-					title, _ := reader.ReadString('\n')
-					title = strings.TrimSpace(title)
-					task.Title = title
-					fmt.Println(utils.TaskToJsonString(service.UpdateTask(*task)))
-				} else {
-					var isTaskFinished string
-					fmt.Print("Task was finished Y/N? ")
-					fmt.Scanln(&isTaskFinished)
-					if strings.ToUpper(isTaskFinished) == "Y" {
-						task.Status = true
-					} else {
-						task.Status = false
-					}
-					fmt.Println(utils.TaskToJsonString(service.UpdateTask(*task)))
-				}
-			} else {
-				fmt.Println("Type task title: ")
-				title, _ := reader.ReadString('\n')
-				title = strings.TrimSpace(title)
-				task.Title = title
-				var isTaskFinished string
-				fmt.Print("Task was finished Y/N? ")
-				fmt.Scanln(&isTaskFinished)
-				if strings.ToUpper(isTaskFinished) == "Y" {
-					task.Status = true
-				} else {
-					task.Status = false
-				}
-			}
+			taskController.UpdateTask()
 		case 5:
-			fmt.Print("Type task id: ")
-			var id string
-			fmt.Scanln(&id)
-			fmt.Println(utils.TaskToJsonString(*service.DeleteTaskById(id)))
+			taskController.DeleteTask()
+		case 6:
+			fmt.Println("Exiting...")
+			return
 		default:
-			println("option not available...")
+			fmt.Println("Invalid option, try again.")
 		}
+
 		var answer string
-		fmt.Println("Wanna Continue? Y/N")
+		fmt.Print("\nWanna Continue? (Y/N): ")
 		fmt.Scanln(&answer)
-
 		if strings.ToUpper(answer) == "N" {
-			terminator = true
+			break
 		}
-
 	}
-
 }
