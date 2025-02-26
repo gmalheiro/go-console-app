@@ -1,15 +1,15 @@
 package repository
 
 import (
-	"go-console-app/model"
+	"go-console-app/entity"
 	"go-console-app/storage"
 )
 
-func CreateTask(task model.Task) {
+func CreateTask(task entity.Task) {
 	storage.Tasks = append(storage.Tasks, task)
 }
 
-func GetTaskById(id int) *model.Task {
+func GetTaskById(id int) *entity.Task {
 	for i := range storage.Tasks {
 		if storage.Tasks[i].ID == id {
 			return &storage.Tasks[i]
@@ -18,7 +18,7 @@ func GetTaskById(id int) *model.Task {
 	return nil
 }
 
-func DeleteTaskById(id int) *model.Task {
+func DeleteTaskById(id int) *entity.Task {
 	task := GetTaskById(id)
 	if task != nil {
 		for i := range storage.Tasks {
@@ -31,7 +31,7 @@ func DeleteTaskById(id int) *model.Task {
 	return nil
 }
 
-func UpdateTask(task model.Task) *model.Task {
+func UpdateTask(task entity.Task) *entity.Task {
 	for i := range storage.Tasks {
 		if storage.Tasks[i].ID == task.ID {
 			storage.Tasks[i].Status = task.Status
@@ -42,7 +42,7 @@ func UpdateTask(task model.Task) *model.Task {
 	return nil
 }
 
-func GetAllTasks() []model.Task {
+func GetAllTasks() []entity.Task {
 	return storage.Tasks
 }
 

@@ -3,7 +3,7 @@ package controller
 import (
 	"bufio"
 	"fmt"
-	"go-console-app/model"
+	"go-console-app/entity"
 	"go-console-app/service"
 	"go-console-app/utils"
 	"os"
@@ -67,7 +67,7 @@ func (tc *TaskController) UpdateTask() {
 	}
 }
 
-func (tc *TaskController) updateTitle(task *model.Task) {
+func (tc *TaskController) updateTitle(task *entity.Task) {
 	fmt.Print("Type task title: ")
 	title, _ := tc.reader.ReadString('\n')
 	title = strings.TrimSpace(title)
@@ -75,7 +75,7 @@ func (tc *TaskController) updateTitle(task *model.Task) {
 	fmt.Println(utils.TaskToJsonString(service.UpdateTask(*task)))
 }
 
-func (tc *TaskController) updateStatus(task *model.Task) {
+func (tc *TaskController) updateStatus(task *entity.Task) {
 	var isTaskFinished string
 	fmt.Print("Task was finished (Y/N)? ")
 	fmt.Scanln(&isTaskFinished)

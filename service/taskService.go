@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strconv"
 
+	"go-console-app/entity"
 	"go-console-app/factory"
-	"go-console-app/model"
 	"go-console-app/repository"
 )
 
@@ -17,7 +17,7 @@ func CreateTask(title string) string {
 	return fmt.Sprintf("{ID: %d, Title: %s, Status: %t}", task.ID, task.Title, task.Status)
 }
 
-func GetTaskById(id string) *model.Task {
+func GetTaskById(id string) *entity.Task {
 	taskId, err := strconv.Atoi(id)
 
 	if err != nil {
@@ -35,12 +35,12 @@ func GetTaskById(id string) *model.Task {
 	return task
 }
 
-func DeleteTaskById(id string) *model.Task {
+func DeleteTaskById(id string) *entity.Task {
 	taskId := GetTaskById(id)
 	return repository.DeleteTaskById(taskId.ID)
 }
 
-func UpdateTask(task model.Task) model.Task {
+func UpdateTask(task entity.Task) entity.Task {
 	return *repository.UpdateTask(task)
 }
 
