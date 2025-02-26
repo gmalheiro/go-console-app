@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"go-console-app/model"
+	"go-console-app/entity"
 )
 
-func TaskToJsonString(task model.Task) string {
+func TaskToJsonString(task entity.Task) string {
 	jsonTask, err := json.MarshalIndent(task, "", "  ")
 	if err != nil {
 		fmt.Println("Error while converting to JSON: ", err)
