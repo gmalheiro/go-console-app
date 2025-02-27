@@ -1,18 +1,18 @@
 package repository
 
 import (
+	"go-console-app/data"
 	"go-console-app/entity"
-	"go-console-app/storage"
 )
 
 func CreateTask(task entity.Task) {
-	storage.Tasks = append(storage.Tasks, task)
+	data.Tasks = append(data.Tasks, task)
 }
 
 func GetTaskById(id int) *entity.Task {
-	for i := range storage.Tasks {
-		if storage.Tasks[i].ID == id {
-			return &storage.Tasks[i]
+	for i := range data.Tasks {
+		if data.Tasks[i].ID == id {
+			return &data.Tasks[i]
 		}
 	}
 	return nil
@@ -21,9 +21,9 @@ func GetTaskById(id int) *entity.Task {
 func DeleteTaskById(id int) *entity.Task {
 	task := GetTaskById(id)
 	if task != nil {
-		for i := range storage.Tasks {
-			if storage.Tasks[i].ID == id {
-				storage.Tasks = append(storage.Tasks[:i], storage.Tasks[i+1:]...)
+		for i := range data.Tasks {
+			if data.Tasks[i].ID == id {
+				data.Tasks = append(data.Tasks[:i], data.Tasks[i+1:]...)
 				return task
 			}
 		}
@@ -32,20 +32,20 @@ func DeleteTaskById(id int) *entity.Task {
 }
 
 func UpdateTask(task entity.Task) *entity.Task {
-	for i := range storage.Tasks {
-		if storage.Tasks[i].ID == task.ID {
-			storage.Tasks[i].Status = task.Status
-			storage.Tasks[i].Title = task.Title
-			return &storage.Tasks[i]
+	for i := range data.Tasks {
+		if data.Tasks[i].ID == task.ID {
+			data.Tasks[i].Status = task.Status
+			data.Tasks[i].Title = task.Title
+			return &data.Tasks[i]
 		}
 	}
 	return nil
 }
 
 func GetAllTasks() []entity.Task {
-	return storage.Tasks
+	return data.Tasks
 }
 
 func GetSliceSize() int {
-	return len(storage.Tasks)
+	return len(data.Tasks)
 }
